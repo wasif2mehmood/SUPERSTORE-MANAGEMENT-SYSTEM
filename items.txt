@@ -1,0 +1,17 @@
+item:quantity:sales price:purchase price
+milk(1.5 litre):5:235:210
+milk(1 litre):117:150:138
+soap:18:23:20
+milk cream(200 mL):45:250:200
+wheat biscuits:33:25:20
+tooth paste:50:55:45
+hair shampoo(650 mL):56:800:870
+match box(10 pieces):12:30:25
+
+small dawn bread:2:75:70
+noodles:29:45:40
+salt(500g):30:40:30
+flour(1kg):50:100:80
+water(1 litre):40:30:40
+oil(1 litre):30:350:300
+sugar:20:100:80
