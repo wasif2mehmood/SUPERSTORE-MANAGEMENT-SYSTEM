@@ -19,7 +19,7 @@ public class final_order implements ActionListener {
     JTextField customer_name, customer_number;
     JButton paid, unpaid, mainmenu;
     JLabel Bill, Customer_name, Customer_number,title,picture;
-    File paid_rec = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\customerRECORD");
+    File paid_rec = new File("customerRECORD");
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
     ImageIcon image;
@@ -47,7 +47,7 @@ public class final_order implements ActionListener {
         Customer_name.setBounds(450, 50, 300, 60);
         panel.add(Customer_name);
 
-        image = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\FINAL ORDER.png");
+        image = new ImageIcon("FINAL ORDER.png");
 
         picture = new JLabel(image);
         picture.setBounds(0, 10, 500, 470);
@@ -67,17 +67,20 @@ public class final_order implements ActionListener {
 
         bill = 0;
         int n=0;
-        File cart = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\cart.txt");
-        Scanner read = new Scanner(cart);
-        while (read.hasNextLine()) {
-            String line = read.nextLine();
-            items[n]=line;
-            System.out.println(line);
-            int pri = Integer.parseInt(line.split(": ")[1]);
-            bill += pri;
-            n+=1;
+        File cart = new File("cart.txt");
+        try (Scanner read = new Scanner(cart)) {
+            while (read.hasNextLine()) {
+                String line = read.nextLine();
+                items[n]=line;
+                System.out.println(line);
+                int pri = Integer.parseInt(line.split(": ")[1]);
+                bill += pri;
+                n+=1;
+            }
+        } catch (NumberFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
         Bill = new JLabel(String.valueOf(bill + " is total bill calculated"));
         Bill.setBounds(600, 300, 600, 60);
         Bill.setFont((new Font("Serif", Font.PLAIN, 30)));
@@ -116,7 +119,7 @@ public class final_order implements ActionListener {
         }
         if (e.getSource() == mainmenu) {
             try {
-                veiw_cart veiw_cart = new veiw_cart();
+                new veiw_cart();
                 finWin.dispose();
 
             } catch (IOException ex) {
@@ -181,7 +184,7 @@ public class final_order implements ActionListener {
             writer.write("\n");
             writer.close();
             // veiw_cart v = new veiw_cart();
-            File cart = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\cart.txt");
+            File cart = new File("cart.txt");
             FileWriter f = new FileWriter(cart);
             f.close();
 
@@ -193,7 +196,7 @@ public class final_order implements ActionListener {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        final_order final_order=new final_order();
+        new final_order();
     }
 
 }

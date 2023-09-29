@@ -112,31 +112,34 @@ public class profitlosscalculator implements ActionListener {
             int TOTAL_SALES = 0,TOTAL_PURCHASE = 0;
             File file=new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\customerRECORD");
             try {
-                Scanner reader=new Scanner(file);
-                while (reader.hasNextLine()){
-                    String line=reader.nextLine();
-                    line=line.replace("[","");
-                    line=line.replace("]","");
+                try (Scanner reader = new Scanner(file)) {
+                    while (reader.hasNextLine()){
+                        String line=reader.nextLine();
+                        line=line.replace("[","");
+                        line=line.replace("]","");
 
-                    if(line.contains(datePicker.getJFormattedTextField().getText())){
-                        stat.setVisible(false);
-                        earnings.setVisible(true);
-                        total_sales.setVisible(true);
-                        String[] arr=line.split("  ");
-                        System.out.println(Arrays.toString(arr));
+                        if(line.contains(datePicker.getJFormattedTextField().getText())){
+                            stat.setVisible(false);
+                            earnings.setVisible(true);
+                            total_sales.setVisible(true);
+                            String[] arr=line.split("  ");
+                            System.out.println(Arrays.toString(arr));
 
-                        for(int n=1;n<arr.length;n+=2){
-                            sold[m]=arr[n];
-                            TOTAL_SALES+= Integer.parseInt(arr[n+1].split(": ")[1]);
-                            m+=1;
+                            for(int n=1;n<arr.length;n+=2){
+                                sold[m]=arr[n];
+                                TOTAL_SALES+= Integer.parseInt(arr[n+1].split(": ")[1]);
+                                m+=1;
+                            }
+
                         }
 
                     }
-
+                } catch (NumberFormatException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
                 File item=new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
-                Scanner read=new Scanner(item);
-
+                try (Scanner read = new Scanner(item)) {
                     while (read.hasNextLine()){
                         String line=read.nextLine();
                         String[] array=line.split(":");
@@ -150,7 +153,12 @@ public class profitlosscalculator implements ActionListener {
                         }
                     }
                 }
-                earnings.setVisible(true);
+                } catch (NumberFormatException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+                    earnings.setVisible(true);
                 total_sales.setVisible(true);
                 if(TOTAL_PURCHASE==0||TOTAL_SALES==0){
                     stat.setVisible(true);
@@ -167,7 +175,7 @@ public class profitlosscalculator implements ActionListener {
         }
         if (e.getSource() == mainmenuBtn) {
             try {
-                opening_page opening_page = new opening_page();
+                new opening_page();
                 win.dispose();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

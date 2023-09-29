@@ -77,7 +77,7 @@ class LoginFrame extends JFrame implements ActionListener {
         passStat.setSize(500, 25);
         panel.add(passStat);
 
-        image = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\login.png");
+        image = new ImageIcon("login.png");
 
         picture = new JLabel(image);
         picture.setBounds(40, 0, 550, 500);
@@ -93,7 +93,7 @@ class LoginFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createAccount) {
-            signupPage signupPage = new signupPage();
+            new signupPage();
 
         }
         if (e.getSource() == loginButton) {
@@ -104,26 +104,26 @@ class LoginFrame extends JFrame implements ActionListener {
             System.out.println(userText);
             pwdText = "{" + String.valueOf(passwordField.getPassword()) + "}";
             System.out.println(pwdText);
-            File UserFile = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\SignupDetails.txt");
+            File UserFile = new File("SignupDetails.txt");
             try {
-                FileReader userFileReader = new FileReader("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\SignupDetails.txt");
-                Scanner userFileScanner = new Scanner(UserFile);
-                while (userFileScanner.hasNextLine()) {
-                    String line = userFileScanner.nextLine();
-                    if (line.contains(userText) && line.contains(pwdText) && !userText.equals("")
-                            && !pwdText.equals("")) {
-                        JOptionPane.showMessageDialog(null, "LOGGED IN SUCCESSFULLY", "LOGGED IN", 1);
-                        File file=new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\cart.txt");
-                        FileWriter writer=new FileWriter(file);
-                        status = "SUCCESSFULLY LOGGED IN";
-                        opening_page opening_page = new opening_page();
-                        login_frame.dispose();
-                        break;
-                    }
+                try (Scanner userFileScanner = new Scanner(UserFile)) {
+                    while (userFileScanner.hasNextLine()) {
+                        String line = userFileScanner.nextLine();
+                        if (line.contains(userText) && line.contains(pwdText) && !userText.equals("")
+                                && !pwdText.equals("")) {
+                            JOptionPane.showMessageDialog(null, "LOGGED IN SUCCESSFULLY", "LOGGED IN", 1);
+                            status = "SUCCESSFULLY LOGGED IN";
+                            login_frame.dispose();
+                            break;
+                        }
 
-                    else {
-                        status = "WRONG PASSWORD";
+                        else {
+                            status = "WRONG PASSWORD";
+                        }
                     }
+                } catch (HeadlessException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
                 passStat.setText(status);
 
@@ -155,7 +155,7 @@ class LoginFrame extends JFrame implements ActionListener {
 
 public class Login {
     public static void main(String[] a) {
-        LoginFrame frame = new LoginFrame();
+        new LoginFrame();
 
     }
 

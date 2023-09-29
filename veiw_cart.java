@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.sql.Array;
 import java.util.*;
 
 public class veiw_cart implements ActionListener {
@@ -36,7 +35,7 @@ public class veiw_cart implements ActionListener {
         title.setFont((new Font("Serif", Font.PLAIN, 30)));
         cartWin.add(title);
 
-        image = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\cart.png");
+        image = new ImageIcon("cart.png");
 
         picture = new JLabel(image);
         picture.setBounds(80, 10, 500, 470);
@@ -47,15 +46,22 @@ public class veiw_cart implements ActionListener {
         cLable.setBounds(650, 50, 700, 60);
         panel.add(cLable);
         cartWin.setVisible(true);
-        File cart = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\cart.txt");
+        File cart = new File("cart.txt");
         cartItems = new String[100];
-        FileReader read = new FileReader(cart);
-        Scanner reader = new Scanner(cart);
-        int n = 0;
-        while (reader.hasNextLine()) {
-            String line = reader.nextLine();
-            cartItems[n] = line;
-            n += 1;
+        try (FileReader read = new FileReader(cart)) {
+        } catch (FileNotFoundException e) {
+            throw e;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try (Scanner reader = new Scanner(cart)) {
+            int n = 0;
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                cartItems[n] = line;
+                n += 1;
+            }
         }
         System.out.println(Arrays.toString(cartItems));
         CartItems = new JComboBox(cartItems);
@@ -106,7 +112,7 @@ public class veiw_cart implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        File record = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\cart.txt");
+        File record = new File("cart.txt");
         ArrayList<String> newcart = new ArrayList<>();
         ArrayList<String> updatedList = new ArrayList<>();
         Collections.addAll(newcart, cartItems);
@@ -169,36 +175,39 @@ public class veiw_cart implements ActionListener {
         }
         if (e.getSource() == finOrd) {
             try {
-                File items = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
-                FileReader read = new FileReader("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
-                Scanner reader = new Scanner(items);
-                while (reader.hasNextLine()) {
-                    String line = reader.nextLine();
-                    String[] data = line.split(":");
-                    for (String l : newcart) {
-                        if (l == null) {
-                            break;
-                        }
-                        String proName = l.split("  ")[0];
-                        if (data[0].contains(proName)) {
-                            System.out.println(proName);
-                            int remQuan = Integer.parseInt(data[1]) - 1;
-                            if (remQuan > 0) {
-                                data[1] = String.valueOf(remQuan);
-                                line = data[0] + ":" + data[1] + ":" + data[2] + ":" + data[3];
-                            } else {
-                                line = "";
+                File items = new File("items.txt");
+                try (Scanner reader = new Scanner(items)) {
+                    while (reader.hasNextLine()) {
+                        String line = reader.nextLine();
+                        String[] data = line.split(":");
+                        for (String l : newcart) {
+                            if (l == null) {
+                                break;
+                            }
+                            String proName = l.split("  ")[0];
+                            if (data[0].contains(proName)) {
+                                System.out.println(proName);
+                                int remQuan = Integer.parseInt(data[1]) - 1;
+                                if (remQuan > 0) {
+                                    data[1] = String.valueOf(remQuan);
+                                    line = data[0] + ":" + data[1] + ":" + data[2] + ":" + data[3];
+                                } else {
+                                    line = "";
+                                }
                             }
                         }
-                    }
-                    updatedList.add(line);
+                        updatedList.add(line);
 
+                    }
+                } catch (NumberFormatException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             try {
-                FileWriter writer = new FileWriter("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
+                FileWriter writer = new FileWriter("items.txt");
                 for (String l : updatedList) {
                     writer.write(l + "\n");
 
@@ -208,7 +217,7 @@ public class veiw_cart implements ActionListener {
                 throw new RuntimeException(ex);
             }
             try {
-                final_order final_order = new final_order();
+                new final_order();
                 cartWin.dispose();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
@@ -217,7 +226,7 @@ public class veiw_cart implements ActionListener {
         }
         if (e.getSource() == mainmenu) {
             try {
-                opening_page opening_page = new opening_page();
+                new opening_page();
                 cartWin.dispose();
 
             } catch (IOException ex) {

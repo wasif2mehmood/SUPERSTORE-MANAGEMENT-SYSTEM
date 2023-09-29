@@ -41,7 +41,7 @@ public class addItemsframe extends JFrame implements ActionListener {
         addtostore.add(title);
 
 
-        image = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\add.png");
+        image = new ImageIcon("add.png");
 
         picture = new JLabel(image);
         picture.setBounds(50, 10, 300, 470);
@@ -109,35 +109,33 @@ public class addItemsframe extends JFrame implements ActionListener {
             checkNumber(NoOfItemstextfield.getText());
             checkNumber(SalePricetxtfield.getText());
             checkNumber(purchasePricetxtfield.getText());
-            File itemsfile = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
+            File itemsfile = new File("items.txt");
             String NewContent = "";
             boolean newItemCheck = true;
             try {
 
-                FileWriter Itemwriter = new FileWriter(itemsfile, true);
+                try (Scanner itemreader = new Scanner(itemsfile)) {
+                    while (itemreader.hasNextLine()) {
 
-                Scanner itemreader = new Scanner(itemsfile);
+                        String line = itemreader.nextLine();
+                        System.out.println(line);
+                        String[] itemsData = line.split(":");
 
-                while (itemreader.hasNextLine()) {
+                        System.out.println(itemsData[0].equals(itemnametxtfield.getText()));
+                        if (itemsData[0].equals(itemnametxtfield.getText())) {
 
-                    String line = itemreader.nextLine();
-                    System.out.println(line);
-                    String[] itemsData = line.split(":");
+                            NewContent += itemnametxtfield.getText() + ":"
+                                    + (Integer.parseInt(NoOfItemstextfield.getText()) + Integer.parseInt(itemsData[1]))
+                                    + ":" + SalePricetxtfield.getText() + ":" + purchasePricetxtfield.getText() + "\n";
+                            System.out.println(NewContent);
+                            newItemCheck = false;
 
-                    System.out.println(itemsData[0].equals(itemnametxtfield.getText()));
-                    if (itemsData[0].equals(itemnametxtfield.getText())) {
+                        } else {
+                            NewContent += line + "\n";
 
-                        NewContent += itemnametxtfield.getText() + ":"
-                                + (Integer.parseInt(NoOfItemstextfield.getText()) + Integer.parseInt(itemsData[1]))
-                                + ":" + SalePricetxtfield.getText() + ":" + purchasePricetxtfield.getText() + "\n";
-                        System.out.println(NewContent);
-                        newItemCheck = false;
-
-                    } else {
-                        NewContent += line + "\n";
+                        }
 
                     }
-
                 }
             } catch (Exception exc) {
                 // TODO: handle exception
@@ -174,13 +172,11 @@ public class addItemsframe extends JFrame implements ActionListener {
                 panel.repaint();
             }
             k += 1;
-            int count = 0;
             String[] prodarray;
-            File record = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
+            File record = new File("items.txt");
             int n = 0;
             try {
                 System.out.println(itemnametxtfield.getText());
-                FileReader writer = new FileReader("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
                 try (Scanner scanner = new Scanner(record)) {
                     availableProductsarray = new String[100];
 
@@ -241,7 +237,7 @@ public class addItemsframe extends JFrame implements ActionListener {
 
         if (e.getSource().equals(BackButton)) {
             try {
-                opening_page opening_page=new opening_page();
+               new opening_page();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -252,8 +248,7 @@ public class addItemsframe extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         try {
-
-            addItemsframe addtoitemwimdow = new addItemsframe();
+new addItemsframe();
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -266,9 +261,6 @@ public class addItemsframe extends JFrame implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Missing fields", "invalid Data", 0);
 
-            // nametxtfield("<html>Text color: <font color='red'>red</font></html>");
-
-            // <span style="color:#ff0000">*</span>
             throw new InputMismatchException();
         }
 

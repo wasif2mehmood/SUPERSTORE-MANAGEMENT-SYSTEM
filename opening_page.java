@@ -1,13 +1,9 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 class opening_page implements ActionListener {
     JButton dynamicSearch, additemsbtn, profitLoss, customerRecord, cart, mainmenu;
@@ -78,7 +74,7 @@ class opening_page implements ActionListener {
         }
         if (e.getSource() == cart) {
             try {
-                veiw_cart veiw_cart = new veiw_cart();
+                new veiw_cart();
                 openingWindow.dispose();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
@@ -87,7 +83,7 @@ class opening_page implements ActionListener {
 
         if (e.getSource() == additemsbtn) {
             try {
-                addItemsframe a = new addItemsframe();
+                new addItemsframe();
                 openingWindow.dispose();
 
             } catch (Exception ex) {
@@ -97,12 +93,12 @@ class opening_page implements ActionListener {
 
         }
         if(e.getSource()==profitLoss){
-            profitlosscalculator profitlosscalculator=new profitlosscalculator();
+            new profitlosscalculator();
             openingWindow.dispose();
         }
 
         if(e.getSource()==customerRecord){
-            customer_record customer_record=new customer_record();
+            new customer_record();
             openingWindow.dispose();
         }
     }
@@ -110,7 +106,7 @@ class opening_page implements ActionListener {
     class main {
         public static void main(String[] args) throws IOException {
 
-            opening_page o = new opening_page();
+        new opening_page();
 
         }
     }

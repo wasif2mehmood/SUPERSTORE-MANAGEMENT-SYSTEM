@@ -1,11 +1,12 @@
 import javax.swing.*;
-import org.jdatepicker.impl.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 import java.util.InputMismatchException;
 import java.util.Properties;
 import java.util.Scanner;
@@ -38,11 +39,11 @@ public class signupPage extends JFrame implements ActionListener {
         title.setFont((new Font("Serif", Font.PLAIN, 30)));
         signupframe.add(title);
 
-        ImageIcon image = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\logo2.png");
+        ImageIcon image = new ImageIcon("logo2.png");
         signupframe.setIconImage(image.getImage());
         signupframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        images = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\signup.png");
+        images = new ImageIcon("signup.png");
 
 
         registerPanel = new JPanel();
@@ -149,7 +150,7 @@ public class signupPage extends JFrame implements ActionListener {
 
     public void filehandled() {
 
-        File usersignupsetails = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\SignupDetails.txt");
+        File usersignupsetails = new File("SignupDetails.txt");
 
         try {
             usersignupsetails.createNewFile();
@@ -160,7 +161,7 @@ public class signupPage extends JFrame implements ActionListener {
         }
 
         try {
-            FileWriter fileWriter = new FileWriter("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\SignupDetails.txt", true);
+            FileWriter fileWriter = new FileWriter("SignupDetails.txt", true);
             fileWriter.write(nametxtfield.getText() + "," + ContactNumbertxtfield.getText() + ","
                     + CNICtxtfield.getText() + "," + addresstxtfield.getText() + ","
                     + datePicker.getJFormattedTextField().getText() + "," + "{" + usernametxtfield.getText() + "}" + ","
@@ -241,7 +242,7 @@ public class signupPage extends JFrame implements ActionListener {
 
         // username check
 
-        File usersignupsetails = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\SignupDetails.txt");
+        File usersignupsetails = new File("SignupDetails.txt");
         try (Scanner reader = new Scanner(usersignupsetails)) {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
@@ -274,10 +275,6 @@ public class signupPage extends JFrame implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-        signupPage signupframe = new signupPage();
-
-    }
 
     void isonlyLetters(String a) throws InputMismatchException {
         a = a.replace(" ", "");

@@ -95,7 +95,7 @@ JPanel panel;
     }
 
     public static void main(String[] args) {
-        customer_record customer_record=new customer_record();
+        new customer_record();
     }
 
     @Override
@@ -103,28 +103,29 @@ JPanel panel;
         String nrec="";
         String s="";
         String[] rec = new String[5];
-        File PAID=new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\customerRECORD");
+        File PAID=new File("customerRECORD");
         if (e.getSource() == submit) {
 
             try {
-                Scanner read=new Scanner(PAID);
-                while (read.hasNextLine()){
-                    String line=read.nextLine();
-                    if(line.contains("{"+name.getText()+"}")&&line.contains("{"+number.getText()+"}")){
-                        status.setVisible(false);
-                    rec=line.split("\\|");
-                        System.out.println(Arrays.toString(rec));
-                    nrec+="NAME: "+name.getText()+" \nNUMBER: "+number.getText()+" \nTOTAL BILL:"+rec[2]+" \nDATE TIME:"+rec[3]+" \nBILLING STATUS:"+rec[4]+" \nITEMS BOUGHT:"+rec[5]+"\n";
-                    if (Objects.equals(rec[4], "UN PAID")){
-                        addtopaid.setVisible(true);
+                try (Scanner read = new Scanner(PAID)) {
+                    while (read.hasNextLine()){
+                        String line=read.nextLine();
+                        if(line.contains("{"+name.getText()+"}")&&line.contains("{"+number.getText()+"}")){
+                            status.setVisible(false);
+                        rec=line.split("\\|");
+                            System.out.println(Arrays.toString(rec));
+                        nrec+="NAME: "+name.getText()+" \nNUMBER: "+number.getText()+" \nTOTAL BILL:"+rec[2]+" \nDATE TIME:"+rec[3]+" \nBILLING STATUS:"+rec[4]+" \nITEMS BOUGHT:"+rec[5]+"\n";
+                        if (Objects.equals(rec[4], "UN PAID")){
+                            addtopaid.setVisible(true);
+
+                        }
+                        else {addtopaid.setVisible(false);}
+
+                        }
+
+                    recordTEXT.setText(nrec);
 
                     }
-                    else {addtopaid.setVisible(false);}
-
-                    }
-
-                recordTEXT.setText(nrec);
-
                 }
                 if (rec[0]==null){status.setVisible(true);}
             } catch (FileNotFoundException ex) {
@@ -137,24 +138,24 @@ JPanel panel;
             JOptionPane.showMessageDialog(null, "CUSTOMER ADDED TO PAID CATEGORY SUCCESSFULLY", "CATEGORY CHANGED", 1);
             String[] record = new String[330];
             try {
-                Scanner reader=new Scanner(PAID);
-                int n=0;
-                while (reader.hasNextLine()){
-                    String line=reader.nextLine();
-                    rec=line.split("\\|");
-                    if(line.contains("{"+name.getText()+"}")&&line.contains("{"+number.getText()+"}")) {
-                        //System.out.println(Arrays.toString(rec));
-                        rec[4]="PAID";
-                         s+="NAME: "+name.getText()+" \nNUMBER: "+number.getText()+" \nTOTAL BILL:"+rec[2]+" \nDATE TIME:"+rec[3]+" \nBILLING STATUS:"+rec[4]+" \nITEMS BOUGHT:"+rec[5]+"\n";
-                        recordTEXT.setText(s);
-                    }
+                try (Scanner reader = new Scanner(PAID)) {
+                    int n=0;
+                    while (reader.hasNextLine()){
+                        String line=reader.nextLine();
+                        rec=line.split("\\|");
+                        if(line.contains("{"+name.getText()+"}")&&line.contains("{"+number.getText()+"}")) {
+                            //System.out.println(Arrays.toString(rec));
+                            rec[4]="PAID";
+                             s+="NAME: "+name.getText()+" \nNUMBER: "+number.getText()+" \nTOTAL BILL:"+rec[2]+" \nDATE TIME:"+rec[3]+" \nBILLING STATUS:"+rec[4]+" \nITEMS BOUGHT:"+rec[5]+"\n";
+                            recordTEXT.setText(s);
+                        }
 
-                    record[n]="{" + rec[0] + "}|{" + rec[1] + "}|" + rec[2]
-                            + "|"
-                            + rec[3]+"|"+ rec[4] +"|"+rec[5];
-                            n+=1;
-                    }
-
+                        record[n]="{" + rec[0] + "}|{" + rec[1] + "}|" + rec[2]
+                                + "|"
+                                + rec[3]+"|"+ rec[4] +"|"+rec[5];
+                                n+=1;
+                        }
+                }
                 FileWriter WRITE=new FileWriter(PAID);
                 for (String S:record){
                     if (S==null){
@@ -174,7 +175,7 @@ JPanel panel;
         }
         if (e.getSource() == mainmenuBtn) {
             try {
-                opening_page opening_page = new opening_page();
+                new opening_page();
                 recwin.dispose();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

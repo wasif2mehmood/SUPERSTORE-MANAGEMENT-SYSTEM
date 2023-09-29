@@ -82,7 +82,7 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
         panel.add(available_items);
 
 
-        image = new ImageIcon("C:\\Users\\Wasif Mehmood\\IdeaProjects\\MY SHOP MANAGER\\src\\dynamic search.png");
+        image = new ImageIcon("dynamic search.png");
 
         picture = new JLabel(image);
         picture.setBounds(0,40, 500, 400);
@@ -112,13 +112,11 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
                 panel.remove(AvailProdcmbobox);
             }
             k += 1;
-            int count = 0;
             String[] prodarray;
-            File record = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
+            File record = new File("items.txt");
             int n = 0;
             try {
                 System.out.println(searchField.getText());
-                FileReader writer = new FileReader("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\items.txt");
                 try (Scanner scanner = new Scanner(record)) {
                     availableProductsarray = new String[100];
 
@@ -181,7 +179,7 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
         }
         if (e.getSource() == mainmenuBtn) {
             try {
-                opening_page opening_page = new opening_page();
+                new opening_page();
                 dynamicSearchframe.dispose();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -189,7 +187,7 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
         }
         if(e.getSource()==CART){
             try {
-                veiw_cart veiw_cart=new veiw_cart();
+                new veiw_cart();
                 dynamicSearchframe.dispose();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
@@ -199,7 +197,7 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        DYNAMIC_SEARCH dynamic_search=new DYNAMIC_SEARCH();
+        new DYNAMIC_SEARCH();
     }
 
 }
