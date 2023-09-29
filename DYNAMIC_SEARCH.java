@@ -166,7 +166,7 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
 
         if (e.getSource() == addToCartBtn||e.getSource().equals(AvailProdcmbobox)) {
             CART.setVisible(true);
-            File cartF = new File("C:\\Users\\Wasif Mehmood\\IdeaProjects\\SHOP MANAGEMENT SYSTEM\\src\\cart.txt");
+            File cartF = new File("cart.txt");
             try {
                 FileWriter cartWriter = new FileWriter(cartF, true);
                 cartWriter.write(Objects.requireNonNull(AvailProdcmbobox.getSelectedItem()).toString() + "\n");
