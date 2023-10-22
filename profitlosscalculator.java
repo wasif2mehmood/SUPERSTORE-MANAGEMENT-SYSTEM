@@ -17,7 +17,7 @@ import java.util.Scanner;
 /**
  * The `profitlosscalculator` class represents a profit and loss calculator application.
  */
-public class profitlosscalculator implements ActionListener {
+public class ProfitLossCalculator implements ActionListener {
     JDatePickerImpl datePicker;
 
     JLabel label, stat, total_sales, earnings, title;
@@ -29,7 +29,7 @@ public class profitlosscalculator implements ActionListener {
     /**
      * Constructor to set up the profit and loss calculator application.
      */
-    profitlosscalculator() {
+    ProfitLossCalculator() {
         win = new JFrame("PROFIT LOSS CALCULATOR");
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         win.getContentPane().setBackground(new Color(106, 13, 173));
@@ -95,7 +95,7 @@ public class profitlosscalculator implements ActionListener {
     }
 
     public static void main(String[] args) {
-        profitlosscalculator profitlosscalculator = new profitlosscalculator();
+        ProfitLossCalculator profitlosscalculator = new ProfitLossCalculator();
     }
 
     @Override
@@ -166,7 +166,7 @@ public class profitlosscalculator implements ActionListener {
         }
         if (e.getSource() == mainmenuBtn) {
             try {
-                new opening_page();
+                new OpeningPage();
                 win.dispose();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

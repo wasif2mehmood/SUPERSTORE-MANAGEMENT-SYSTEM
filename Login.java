@@ -103,7 +103,7 @@ class LoginFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createAccount) {
-            new signupPage();
+            new SignupPage();
         }
         if (e.getSource() == loginButton) {
             String status = "";

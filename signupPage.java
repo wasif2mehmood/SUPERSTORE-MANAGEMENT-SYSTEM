@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 // Define the signupPage class which extends JFrame and implements ActionListener
-public class signupPage extends JFrame implements ActionListener {
+public class SignupPage extends JFrame implements ActionListener {
     // Declare class-level variables and components
     JFrame signupFrame;
     JPanel registerPanel, buttonpanel;
@@ -25,11 +25,11 @@ public class signupPage extends JFrame implements ActionListener {
     ImageIcon images;
 
     // Constructor with a parameter (not used)
-    public signupPage(String nothing) {
+    public SignupPage(String nothing) {
     }
 
     // Default constructor
-    public signupPage() {
+    public SignupPage() {
         // Create a JFrame for the signup page
         signupframe = new JFrame("SignUp Page");
         signupframe.getContentPane().setBackground(new Color(106, 13, 173));
