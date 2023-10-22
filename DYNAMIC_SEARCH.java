@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-// The class represents a simple item search GUI application.
+/**
+ * The class represents a simple item search GUI application.
+ */
 public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
 
     // Instance variables for GUI components and data
@@ -21,7 +23,9 @@ public class DYNAMIC_SEARCH extends JFrame implements ActionListener {
     private JPanel panel;
     private ImageIcon image;
 
-    // Constructor to set up the initial state of the GUI.
+    /**
+     * Constructor to set up the initial state of the GUI.
+     */
     DYNAMIC_SEARCH() {
         searchCount = 0;
         itemSearchFrame = new JFrame("Item Search");

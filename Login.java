@@ -5,11 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * The `LoginFrame` class represents a graphical user interface for user login and account creation.
+ */
 class LoginFrame extends JFrame implements ActionListener {
 
     JFrame login_frame;
     ImageIcon image;
-    JLabel username,picture;
+    JLabel username, picture;
     JLabel password;
     JTextField userTextField;
     JPasswordField passwordField;
@@ -17,23 +20,25 @@ class LoginFrame extends JFrame implements ActionListener {
     JCheckBox showPassword;
     JButton loginButton;
     JButton createAccount = new JButton("CREATE ACCOUNT");
-    JLabel passStat ,title;
+    JLabel passStat, title;
     JPanel panel;
-    LoginFrame() {
 
+    /**
+     * Constructor to set up the login frame and its components.
+     */
+    LoginFrame() {
+        // Initialize the main login frame
         login_frame = new JFrame();
         login_frame.getContentPane().setBackground(new Color(106, 13, 173));
         login_frame.setLayout(null);
         login_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         login_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-
         title = new JLabel("LOGIN PAGE");
         title.setForeground(new Color(255, 69, 69));
         title.setBounds(580, 10, 400, 100);
         title.setFont((new Font("Serif", Font.PLAIN, 30)));
         login_frame.add(title);
-
 
         panel = new JPanel();
         panel.setBounds(200, 100, 1000, 500);
@@ -90,11 +95,15 @@ class LoginFrame extends JFrame implements ActionListener {
         showPassword.addActionListener(this);
     }
 
+    /**
+     * Handle actions performed by buttons and checkboxes.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == createAccount) {
             new signupPage();
-
         }
         if (e.getSource() == loginButton) {
             String status = "";
@@ -115,48 +124,36 @@ class LoginFrame extends JFrame implements ActionListener {
                             status = "SUCCESSFULLY LOGGED IN";
                             login_frame.dispose();
                             break;
-                        }
-
-                        else {
+                        } else {
                             status = "WRONG PASSWORD";
                         }
                     }
                 } catch (HeadlessException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 passStat.setText(status);
-
-                //
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+        }
 
-        }
-        // Coding Part of RESET button
-        if (e.getSource() == createAccount) {
-            userTextField.setText("");
-            passwordField.setText("");
-        }
-        // Coding Part of showPassword JCheckBox
         if (e.getSource() == showPassword) {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
             } else {
                 passwordField.setEchoChar('*');
             }
-
         }
     }
-
 }
 
+/**
+ * The main `Login` class to start the application.
+ */
 public class Login {
     public static void main(String[] a) {
         new LoginFrame();
-
     }
-
 }

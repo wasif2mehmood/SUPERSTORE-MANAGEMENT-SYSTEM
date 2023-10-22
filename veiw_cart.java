@@ -5,19 +5,34 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The `veiw_cart` class represents a shopping cart view in a graphical user interface.
+ * It allows users to view items in their shopping cart, remove items, and finalize orders.
+ */
 public class veiw_cart implements ActionListener {
     String[] cartItems, updated_cart;
     JFrame cartWin;
     ImageIcon image;
-    JLabel cLable,title,picture;
+    JLabel cLable, title, picture;
     JComboBox CartItems;
     JButton finOrd, remove_from_cart, mainmenu;
     JPanel panel;
 
+    /**
+     * Constructor for creating a `veiw_cart` object.
+     *
+     * @param justfor_making_object A parameter used for object creation (not used in the constructor).
+     */
     veiw_cart(String justfor_making_object) {
     }
 
+    /**
+     * Default constructor for creating a shopping cart view.
+     *
+     * @throws FileNotFoundException If there is an issue with file access.
+     */
     veiw_cart() throws FileNotFoundException {
+        // Initialize the main JFrame for the shopping cart view
         cartWin = new JFrame("CART");
         cartWin.setLayout(null);
         cartWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -46,13 +61,14 @@ public class veiw_cart implements ActionListener {
         cLable.setBounds(650, 50, 700, 60);
         panel.add(cLable);
         cartWin.setVisible(true);
+
+        // Load items from the shopping cart file
         File cart = new File("cart.txt");
         cartItems = new String[100];
         try (FileReader read = new FileReader(cart)) {
         } catch (FileNotFoundException e) {
             throw e;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try (Scanner reader = new Scanner(cart)) {
@@ -64,6 +80,7 @@ public class veiw_cart implements ActionListener {
             }
         }
         System.out.println(Arrays.toString(cartItems));
+
         CartItems = new JComboBox(cartItems);
         CartItems.setBounds(600, 150, 300, 50);
         CartItems.setVisible(true);
@@ -82,13 +99,15 @@ public class veiw_cart implements ActionListener {
 
         finOrd = new JButton("FINALIZE ORDER");
         finOrd.setBounds(800, 400, 180, 40);
-        if(cartItems[0]==null){finOrd.setVisible(false);
-        remove_from_cart.setVisible(false);
-        CartItems.setVisible(false);
+        if (cartItems[0] == null) {
+            finOrd.setVisible(false);
+            remove_from_cart.setVisible(false);
+            CartItems.setVisible(false);
             cartWin.invalidate();
             cartWin.validate();
             cartWin.repaint();
-        cLable.setText("CART IS EMPTY");}
+            cLable.setText("CART IS EMPTY");
+        }
         panel.add(finOrd);
         panel.invalidate();
         panel.validate();
@@ -103,13 +122,23 @@ public class veiw_cart implements ActionListener {
         cartWin.add(mainmenu);
         mainmenu.setVisible(true);
         mainmenu.addActionListener(this::actionPerformed);
-
     }
 
+    /**
+     * The main method for running the shopping cart application.
+     *
+     * @param args Command-line arguments (not used).
+     * @throws FileNotFoundException If there is an issue with file access.
+     */
     public static void main(String[] args) throws FileNotFoundException {
-        veiw_cart l = new veiw_cart();
+        veiw_cart viewCart = new veiw_cart();
     }
 
+    /**
+     * Handles the action events for buttons.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         File record = new File("cart.txt");
@@ -118,7 +147,6 @@ public class veiw_cart implements ActionListener {
         Collections.addAll(newcart, cartItems);
 
         if (e.getSource() == remove_from_cart) {
-
             panel.remove(CartItems);
             panel.invalidate();
             panel.validate();
@@ -140,7 +168,6 @@ public class veiw_cart implements ActionListener {
 
             for (String I : newcart) {
                 try {
-
                     FileWriter WRITE = new FileWriter(record, true);
                     if (I == null)
                         continue;
@@ -150,16 +177,13 @@ public class veiw_cart implements ActionListener {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
-            if(cartItems[0]==null){
+            if (cartItems[0] == null) {
                 remove_from_cart.setVisible(false);
                 cLable.setText("CART IS EMPTY");
                 CartItems.setVisible(false);
                 finOrd.setVisible(false);
             }
-
-
 
             CartItems = new JComboBox(cartItems);
             CartItems.setBounds(600, 150, 300, 50);
@@ -171,7 +195,9 @@ public class veiw_cart implements ActionListener {
             cartWin.invalidate();
             cartWin.validate();
             cartWin.repaint();
-            if(cartItems.length==0){finOrd.setVisible(false); }
+            if (cartItems.length == 0) {
+                finOrd.setVisible(false);
+            }
         }
         if (e.getSource() == finOrd) {
             try {
@@ -197,10 +223,8 @@ public class veiw_cart implements ActionListener {
                             }
                         }
                         updatedList.add(line);
-
                     }
                 } catch (NumberFormatException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             } catch (IOException ex) {
@@ -210,7 +234,6 @@ public class veiw_cart implements ActionListener {
                 FileWriter writer = new FileWriter("items.txt");
                 for (String l : updatedList) {
                     writer.write(l + "\n");
-
                 }
                 writer.close();
             } catch (IOException ex) {
@@ -222,17 +245,14 @@ public class veiw_cart implements ActionListener {
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
-
         }
         if (e.getSource() == mainmenu) {
             try {
                 new opening_page();
                 cartWin.dispose();
-
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
-
 }

@@ -11,26 +11,34 @@ import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
+/**
+ * The `final_order` class represents a GUI application for finalizing customer orders.
+ */
 public class final_order implements ActionListener {
     JFrame finWin;
     JPanel panel;
-    String[] items=new String[100];
+    String[] items = new String[100];
     int bill;
     JTextField customer_name, customer_number;
     JButton paid, unpaid, mainmenu;
-    JLabel Bill, Customer_name, Customer_number,title,picture;
+    JLabel Bill, Customer_name, Customer_number, title, picture;
     File paid_rec = new File("customerRECORD");
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
     ImageIcon image;
-    final_order() throws FileNotFoundException {
 
+    /**
+     * Constructor for initializing the final order application.
+     *
+     * @throws FileNotFoundException If the file is not found.
+     */
+    final_order() throws FileNotFoundException {
+        // Initialize the main frame
         finWin = new JFrame("FINAL ORDER");
         finWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
         finWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         finWin.getContentPane().setBackground(new Color(106, 13, 173));
         finWin.setLayout(null);
-
 
         panel = new JPanel();
         panel.setBounds(200, 100, 1000, 500);
@@ -66,22 +74,21 @@ public class final_order implements ActionListener {
         panel.add(customer_number);
 
         bill = 0;
-        int n=0;
+        int n = 0;
         File cart = new File("cart.txt");
         try (Scanner read = new Scanner(cart)) {
             while (read.hasNextLine()) {
                 String line = read.nextLine();
-                items[n]=line;
+                items[n] = line;
                 System.out.println(line);
                 int pri = Integer.parseInt(line.split(": ")[1]);
                 bill += pri;
-                n+=1;
+                n += 1;
             }
         } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Bill = new JLabel(String.valueOf(bill + " is total bill calculated"));
+        Bill = new JLabel(String.valueOf(bill + " is the total bill calculated"));
         Bill.setBounds(600, 300, 600, 60);
         Bill.setFont((new Font("Serif", Font.PLAIN, 30)));
         panel.add(Bill);
@@ -102,33 +109,56 @@ public class final_order implements ActionListener {
         finWin.add(mainmenu);
         mainmenu.setVisible(true);
         mainmenu.addActionListener(this::actionPerformed);
-
-
     }
 
+    /**
+     * Action performed method to handle button clicks and actions.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == paid) {
             recwriter(paid.getText());
-
         }
         if (e.getSource() == unpaid) {
-           recwriter(unpaid.getText());
-
+            recwriter(unpaid.getText());
         }
         if (e.getSource() == mainmenu) {
             try {
                 new veiw_cart();
                 finWin.dispose();
-
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
-
     }
 
+    /**
+     * Check if a string contains only letters (alphabets).
+     *
+     * @param a The input string to check.
+     * @throws InputMismatchException If the input contains non-letter characters.
+     * @throws IOException            If an I/O error occurs.
+     */
+    void isonlyLetters(String a) throws InputMismatchException, IOException {
+        a = a.replace(" ", "");
+        for (int i = 0; i < a.length(); i++) {
+            boolean check = Character.isLetter(a.charAt(i));
+            if (!check) {
+                paid.setVisible(true);
+                unpaid.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Enter Correct name", "invalid Data", 0);
+                throw new IOException();
+            }
+        }
+    }
+
+    /**
+     * Check if a string is a valid 11-digit number.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
     public void NumberCheck() throws IOException {
         try {
             if (customer_number.getText().length() != 11) {
@@ -138,34 +168,19 @@ public class final_order implements ActionListener {
                 Integer.parseInt(Character.toString((customer_number.getText().charAt(i))));
             }
         } catch (Exception ex) {
-
-            // TODO: handle exception
             JOptionPane.showMessageDialog(null, "Enter Correct contact number with 11 Digits", "invalid Data", 0);
             paid.setVisible(true);
             unpaid.setVisible(true);
             throw new IOException();
-
         }
     }
 
-    void isonlyLetters(String a) throws InputMismatchException, IOException {
-        a = a.replace(" ", "");
-        for (int i = 0; i < a.length(); i++) {
-
-            boolean check = Character.isLetter(a.charAt(i));
-
-            if (!check) {
-                paid.setVisible(true);
-                unpaid.setVisible(true);
-                JOptionPane.showMessageDialog(null, "Enter Correct name", "invalid Data", 0);
-                throw new IOException();
-
-            }
-
-
-        }
-    }
-    public void recwriter(String l){
+    /**
+     * Write the order details to a file and reset the cart.
+     *
+     * @param l The billing status (Paid or Unpaid).
+     */
+    public void recwriter(String l) {
         try {
             JOptionPane.showMessageDialog(null, "ORDER PLACED SUCCESSFULLY", "ORDER PLACED", 1);
             Bill.setText("ORDER PLACED");
@@ -176,27 +191,30 @@ public class final_order implements ActionListener {
             FileWriter writer = new FileWriter(paid_rec, true);
             writer.write("{" + customer_name.getText() + "}|{" + customer_number.getText() + "}|" + bill
                     + "|"
-                    + dtf.format(now)+"|"+ l +"|");
-            for (String lin:items){
-                if(lin==null){continue;}
-                writer.write("  ["+lin+"]");
+                    + dtf.format(now) + "|" + l + "|");
+            for (String lin : items) {
+                if (lin == null) {
+                    continue;
+                }
+                writer.write("  [" + lin + "]");
             }
             writer.write("\n");
             writer.close();
-            // veiw_cart v = new veiw_cart();
             File cart = new File("cart.txt");
             FileWriter f = new FileWriter(cart);
             f.close();
-
-            // v.remove_from_cart.addActionListener(v);
-            // v.actionPerformed(e.getSource().equals(v.remove_from_cart));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
+    /**
+     * Main method to create an instance of the final_order class.
+     *
+     * @param args Command-line arguments.
+     * @throws FileNotFoundException If a file is not found.
+     */
     public static void main(String[] args) throws FileNotFoundException {
         new final_order();
     }
-
 }

@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * The `opening_page` class represents the main menu of the shop management application.
+ */
 class opening_page implements ActionListener {
     JButton dynamicSearch, additemsbtn, profitLoss, customerRecord, cart, mainmenu;
     JFrame openingWindow;
@@ -12,8 +15,12 @@ class opening_page implements ActionListener {
     JLabel title, picture;
     ImageIcon image;
 
+    /**
+     * Constructor to set up the opening page with menu buttons.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     opening_page() throws IOException {
-
         openingWindow = new JFrame("MY SHOP MANAGER");
         openingWindow.getContentPane().setBackground(new Color(106, 13, 173));
         openingWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,9 +70,13 @@ class opening_page implements ActionListener {
 
         openingWindow.setLayout(null);
         openingWindow.setVisible(true);
-
     }
 
+    /**
+     * Handle actions performed by the menu buttons.
+     *
+     * @param e The action event.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dynamicSearch) {
@@ -85,29 +96,29 @@ class opening_page implements ActionListener {
             try {
                 new addItemsframe();
                 openingWindow.dispose();
-
             } catch (Exception ex) {
                 // TODO: handle exception
-
             }
-
         }
-        if(e.getSource()==profitLoss){
+
+        if (e.getSource() == profitLoss) {
             new profitlosscalculator();
             openingWindow.dispose();
         }
 
-        if(e.getSource()==customerRecord){
+        if (e.getSource() == customerRecord) {
             new customer_record();
             openingWindow.dispose();
         }
     }
 
-    class main {
-        public static void main(String[] args) throws IOException {
-
+    /**
+     * The main method to start the application.
+     *
+     * @param args Command-line arguments.
+     * @throws IOException if an I/O error occurs.
+     */
+    public static void main(String[] args) throws IOException {
         new opening_page();
-
-        }
     }
 }
